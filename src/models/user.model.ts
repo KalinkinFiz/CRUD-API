@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { StatusCode } from '../common/config.js';
 import { TUser } from './user.type.js';
 
-class UsersModel {
+class Users {
   private users: TUser[] = [];
 
   getAllUsers(): Promise<TUser[]> {
@@ -53,16 +54,16 @@ class UsersModel {
       const userIdx = this.users.findIndex((user) => user.id === id);
 
       if (userIdx === -1) {
-        resolve(404);
+        resolve(StatusCode.NOT_FOUND);
       } else {
         this.users = [
           ...this.users.slice(0, userIdx),
           ...this.users.slice(userIdx + 1),
         ];
-        resolve(204);
+        resolve(StatusCode.N0_CONTENT);
       }
     });
   }
 }
 
-export const userModel = new UsersModel();
+export const userModel = new Users();
