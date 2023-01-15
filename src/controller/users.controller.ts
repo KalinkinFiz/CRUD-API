@@ -1,8 +1,7 @@
 import * as http from 'http';
 
-import { userModel } from '../models/user.model.js';
-import { TUser } from '../models/user.type.js';
-import { headers, errorMessages } from '../common/config.js';
+import { userModel, TUser } from '../models/index.js';
+import { headers, ErrorMessages, StatusCode } from '../common/config.js';
 import { response } from '../utils/response.js';
 
 class UsersController {
@@ -13,16 +12,16 @@ class UsersController {
     try {
       const users = await this.usersModel.getAllUsers();
 
-      response(req, res, 200, this.headers, users);
+      response(req, res, StatusCode.OK, this.headers, users);
     } catch (err) {
-      response(req, res, 500, this.headers, {
+      response(req, res, StatusCode.INTERNAL_SERVER_ERROR, this.headers, {
         message: `Error has been occurs during get users`,
       });
     }
   };
 
   getUser = async (
-    _req: http.IncomingMessage,
+    req: http.IncomingMessage,
     res: http.ServerResponse,
     id: string,
   ) => {
@@ -30,30 +29,30 @@ class UsersController {
       const user = (await this.usersModel.getUser(id)) as TUser;
 
       if (user) {
-        response(_req, res, 200, this.headers, user);
+        response(req, res, StatusCode.OK, this.headers, user);
       } else {
-        response(_req, res, 404, this.headers, {
-          message: errorMessages.USER_NOT_FOUND,
+        response(req, res, StatusCode.NOT_FOUND, this.headers, {
+          message: ErrorMessages.USER_NOT_FOUND,
         });
       }
     } catch (err) {
-      response(_req, res, 500, this.headers, {
+      response(req, res, StatusCode.INTERNAL_SERVER_ERROR, this.headers, {
         message: `Error has been occurs during get user`,
       });
     }
   };
 
   addUser = async (
-    _req: http.IncomingMessage,
+    req: http.IncomingMessage,
     res: http.ServerResponse,
     user: TUser,
   ) => {
     try {
       const newUser = (await this.usersModel.addUser(user)) as TUser;
 
-      response(_req, res, 201, this.headers, newUser);
+      response(req, res, StatusCode.CREATED, this.headers, newUser);
     } catch (err) {
-      response(_req, res, 500, this.headers, {
+      response(req, res, StatusCode.INTERNAL_SERVER_ERROR, this.headers, {
         message: 'Error has been occurs during add new user',
       });
     }
@@ -68,14 +67,14 @@ class UsersController {
       const updatedUser = (await this.usersModel.updateUser(user)) as TUser;
 
       if (!updatedUser) {
-        response(req, res, 404, this.headers, {
-          message: errorMessages.USER_NOT_FOUND,
+        response(req, res, StatusCode.NOT_FOUND, this.headers, {
+          message: ErrorMessages.USER_NOT_FOUND,
         });
       } else {
-        response(req, res, 200, this.headers, updatedUser);
+        response(req, res, StatusCode.OK, this.headers, updatedUser);
       }
     } catch (err) {
-      response(req, res, 500, this.headers, {
+      response(req, res, StatusCode.INTERNAL_SERVER_ERROR, this.headers, {
         message: 'Error has been occurs during update user',
       });
     }
@@ -89,19 +88,17 @@ class UsersController {
     try {
       const statusCode = await this.usersModel.deleteUser(id);
 
-      if (statusCode === 404) {
-        response(req, res, 404, this.headers, {
-          message: errorMessages.USER_NOT_FOUND,
-        });
+      let message = '';
+      if (statusCode === StatusCode.NOT_FOUND) {
+        message = ErrorMessages.USER_NOT_FOUND;
+      }
+      if (statusCode === StatusCode.N0_CONTENT) {
+        message = ErrorMessages.USER_DELETED;
       }
 
-      if (statusCode === 204) {
-        response(req, res, 204, this.headers, {
-          message: errorMessages.USER_DELETED,
-        });
-      }
+      response(req, res, statusCode, this.headers, { message });
     } catch (err) {
-      response(req, res, 500, this.headers, {
+      response(req, res, StatusCode.INTERNAL_SERVER_ERROR, this.headers, {
         message: 'Error has been occurs during delete user',
       });
     }
