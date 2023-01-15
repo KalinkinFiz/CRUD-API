@@ -9,7 +9,11 @@
 ## Downloading
 
 ```
-git clone {repository URL}
+git clone -b dev https://github.com/KalinkinFiz/CRUD-API
+```
+
+```
+cd CRUD-API
 ```
 
 ## Installing NPM modules
