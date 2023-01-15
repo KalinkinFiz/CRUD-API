@@ -1,7 +1,7 @@
 import * as http from 'http';
 import 'dotenv/config';
 
-import { handler } from './utils/handler.js';
+import { handler } from './utils/handler';
 
 const PORT = process.env['SERVER_PORT'] || 3000;
 

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { StatusCode } from '../common/config.js';
-import { TUser } from './user.type.js';
+import { StatusCode } from '../common/config';
+import { TUser } from './user.type';
 
 class Users {
   private users: TUser[] = [];

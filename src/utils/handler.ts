@@ -1,14 +1,14 @@
 import * as http from 'http';
 
-import { usersController } from '../controller/users.controller.js';
-import { isValidId, isValidUser } from '../middlewares/index.js';
-import { response } from './response.js';
+import { usersController } from '../controller/users.controller';
+import { isValidId, isValidUser } from '../middlewares/index';
+import { response } from './response';
 import {
   baseUrl,
   headers,
   ValidateMessage,
   StatusCode,
-} from '../common/config.js';
+} from '../common/config';
 
 export class Handler {
   baseUrl = baseUrl;

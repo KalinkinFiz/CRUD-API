@@ -1,2 +1,2 @@
-export * from './user.type.js';
-export * from './user.model.js';
+export * from './user.type';
+export * from './user.model';

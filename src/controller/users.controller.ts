@@ -1,8 +1,8 @@
 import * as http from 'http';
 
-import { userModel, TUser } from '../models/index.js';
-import { headers, ErrorMessages, StatusCode } from '../common/config.js';
-import { response } from '../utils/response.js';
+import { userModel, TUser } from '../models/index';
+import { headers, ErrorMessages, StatusCode } from '../common/config';
+import { response } from '../utils/response';
 
 class UsersController {
   usersModel = userModel;

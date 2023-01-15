@@ -1,8 +1,8 @@
 import * as http from 'http';
 
-import { IErrorMessage } from '../common/errorMessage.js';
-import { TUser } from '../models/user.type.js';
-import { logRequest } from '../middlewares/index.js';
+import { IErrorMessage } from '../common/errorMessage';
+import { TUser } from '../models/user.type';
+import { logRequest } from '../middlewares/index';
 
 export const response = (
   req: http.IncomingMessage,

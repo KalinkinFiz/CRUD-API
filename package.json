@@ -8,10 +8,9 @@
   },
   "main": "./src/index.ts",
   "scripts": {
-    "lint": "eslint src/**",
     "start:dev": "nodemon",
-    "start:prod": "tsc && nodemon ./build/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:prod": "tsc && ts-node-esm --experimental-specifier-resolution=node ./build/index.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
