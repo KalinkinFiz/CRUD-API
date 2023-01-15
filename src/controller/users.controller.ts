@@ -8,9 +8,9 @@ class UsersController {
   usersModel = userModel;
   headers = headers;
 
-  getUsers = async (req: http.IncomingMessage, res: http.ServerResponse) => {
+  getAll = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     try {
-      const users = await this.usersModel.getAllUsers();
+      const users = await this.usersModel.getAll();
 
       response(req, res, StatusCode.OK, this.headers, users);
     } catch (err) {
@@ -20,13 +20,13 @@ class UsersController {
     }
   };
 
-  getUser = async (
+  getById = async (
     req: http.IncomingMessage,
     res: http.ServerResponse,
     id: string,
   ) => {
     try {
-      const user = (await this.usersModel.getUser(id)) as TUser;
+      const user = (await this.usersModel.getById(id)) as TUser;
 
       if (user) {
         response(req, res, StatusCode.OK, this.headers, user);
@@ -42,13 +42,13 @@ class UsersController {
     }
   };
 
-  addUser = async (
+  createUser = async (
     req: http.IncomingMessage,
     res: http.ServerResponse,
     user: TUser,
   ) => {
     try {
-      const newUser = (await this.usersModel.addUser(user)) as TUser;
+      const newUser = (await this.usersModel.createUser(user)) as TUser;
 
       response(req, res, StatusCode.CREATED, this.headers, newUser);
     } catch (err) {
@@ -58,13 +58,13 @@ class UsersController {
     }
   };
 
-  updateUser = async (
+  updateById = async (
     req: http.IncomingMessage,
     res: http.ServerResponse,
     user: TUser,
   ) => {
     try {
-      const updatedUser = (await this.usersModel.updateUser(user)) as TUser;
+      const updatedUser = (await this.usersModel.updateById(user)) as TUser;
 
       if (!updatedUser) {
         response(req, res, StatusCode.NOT_FOUND, this.headers, {
@@ -80,13 +80,13 @@ class UsersController {
     }
   };
 
-  deleteUser = async (
+  deleteById = async (
     req: http.IncomingMessage,
     res: http.ServerResponse,
     id: string,
   ) => {
     try {
-      const statusCode = await this.usersModel.deleteUser(id);
+      const statusCode = await this.usersModel.deleteById(id);
 
       let message = '';
       if (statusCode === StatusCode.NOT_FOUND) {

@@ -6,13 +6,13 @@ import { TUser } from './user.type';
 class Users {
   private users: TUser[] = [];
 
-  getAllUsers(): Promise<TUser[]> {
+  getAll(): Promise<TUser[]> {
     return new Promise((resolve) => {
       resolve(this.users);
     });
   }
 
-  getUser(id: string): Promise<TUser | undefined> {
+  getById(id: string): Promise<TUser | undefined> {
     return new Promise((resolve) => {
       const foundUser = this.users.find((user) => user.id === id);
 
@@ -20,7 +20,7 @@ class Users {
     });
   }
 
-  addUser(newUser: TUser): Promise<TUser> {
+  createUser(newUser: TUser): Promise<TUser> {
     return new Promise((resolve) => {
       const id = uuidv4();
       const user = { ...newUser, id };
@@ -30,7 +30,7 @@ class Users {
     });
   }
 
-  updateUser(user: TUser): Promise<TUser | null> {
+  updateById(user: TUser): Promise<TUser | null> {
     return new Promise((resolve) => {
       const userToUpdate = this.users.find(
         (userInBd) => userInBd.id === user.id,
@@ -49,7 +49,7 @@ class Users {
     });
   }
 
-  deleteUser(id: string): Promise<number> {
+  deleteById(id: string): Promise<number> {
     return new Promise((resolve) => {
       const userIdx = this.users.findIndex((user) => user.id === id);
 

@@ -26,7 +26,7 @@ export class Handler {
 
     if (method === 'GET') {
       if (url === this.baseUrl) {
-        usersController.getUsers(req, res).then(() => {});
+        usersController.getAll(req, res).then(() => {});
       } else {
         const id = url?.split('/').pop();
 
@@ -34,7 +34,7 @@ export class Handler {
           response(req, res, StatusCode.BAD_REQUEST, this.headers, {
             message: ValidateMessage.UUID,
           });
-        } else usersController.getUser(req, res, id).then(() => {});
+        } else usersController.getById(req, res, id).then(() => {});
       }
     }
 
@@ -59,7 +59,7 @@ export class Handler {
           response(req, res, StatusCode.BAD_REQUEST, this.headers, {
             message: ValidateMessage.BODY,
           });
-        } else usersController.addUser(req, res, user).then(() => {});
+        } else usersController.createUser(req, res, user).then(() => {});
       });
     }
 
@@ -89,7 +89,7 @@ export class Handler {
             message: ValidateMessage.BODY,
           });
         } else {
-          usersController.updateUser(req, res, { ...user, id }).then(() => {});
+          usersController.updateById(req, res, { ...user, id }).then(() => {});
         }
       });
     }
@@ -102,7 +102,7 @@ export class Handler {
           message: ValidateMessage.UUID,
         });
       } else {
-        usersController.deleteUser(req, res, id).then(() => {});
+        usersController.deleteById(req, res, id).then(() => {});
       }
     }
   }

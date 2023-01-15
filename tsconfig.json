@@ -24,7 +24,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "./src/test/*.spec.ts"],
   "include": ["./src/**/*.ts"],
   "ts-node": {
     "esm": true,
