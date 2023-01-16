@@ -12,6 +12,7 @@ import {
 
 export class Handler {
   baseUrl = baseUrl;
+
   headers = headers;
 
   handleReq(req: http.IncomingMessage, res: http.ServerResponse) {
@@ -53,13 +54,19 @@ export class Handler {
         });
       });
       req.on('end', () => {
-        const user = JSON.parse(data);
+        try {
+          const user = JSON.parse(data);
 
-        if (!isValidUser(user)) {
+          if (!isValidUser(user)) {
+            response(req, res, StatusCode.BAD_REQUEST, this.headers, {
+              message: ValidateMessage.BODY,
+            });
+          } else usersController.createUser(req, res, user).then(() => {});
+        } catch (err) {
           response(req, res, StatusCode.BAD_REQUEST, this.headers, {
-            message: ValidateMessage.BODY,
+            message: `Error. Invalid JSON`,
           });
-        } else usersController.createUser(req, res, user).then(() => {});
+        }
       });
     }
 
@@ -82,14 +89,21 @@ export class Handler {
         });
       });
       req.on('end', () => {
-        const user = JSON.parse(data);
+        try {
+          const user = JSON.parse(data);
 
-        if (!isValidUser(user)) {
+          if (!isValidUser(user)) {
+            response(req, res, StatusCode.BAD_REQUEST, this.headers, {
+              message: ValidateMessage.BODY,
+            });
+          } else
+            usersController
+              .updateById(req, res, { ...user, id })
+              .then(() => {});
+        } catch (err) {
           response(req, res, StatusCode.BAD_REQUEST, this.headers, {
-            message: ValidateMessage.BODY,
+            message: `Error. Invalid JSON`,
           });
-        } else {
-          usersController.updateById(req, res, { ...user, id }).then(() => {});
         }
       });
     }

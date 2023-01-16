@@ -6,6 +6,7 @@ import { response } from '../utils/response';
 
 class UsersController {
   usersModel = userModel;
+
   headers = headers;
 
   getAll = async (req: http.IncomingMessage, res: http.ServerResponse) => {
